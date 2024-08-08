@@ -4,6 +4,11 @@ const fs = require('fs');
 let carts: Cart[] = [];
 
 function init() {
+    // Check if folder exists
+    if (!fs.existsSync('./data')) {
+        fs.mkdirSync('./data');
+    }
+    
     // Check if file exists
     if (!fs.existsSync('./data/carts.json')) {
         fs.writeFileSync('./data/carts.json', JSON.stringify([]));

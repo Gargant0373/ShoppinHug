@@ -4,6 +4,11 @@ const fs = require('fs');
 let users: User[] = [];
 
 function init() {
+    // Check if folder exists
+    if (!fs.existsSync('./data')) {
+        fs.mkdirSync('./data');
+    }
+    
     // Check if file exists
     if (!fs.existsSync('./data/users.json')) {
         fs.writeFileSync('./data/users.json', JSON.stringify([]));
