@@ -57,4 +57,16 @@ router.put('/check', (req: Request, res: Response) => {
   res.send(cart);
 });
 
+// Update item quantity in a cart
+router.put('/item/quantity', (req: Request, res: Response) => {
+  const { cartName, itemName, quantity } = req.body;
+  if (!cartName || !itemName || quantity === undefined) return res.status(400).send('Cart name, item name, and quantity are required');
+  if (quantity < 0) return res.status(400).send('Quantity must be a non-negative number');
+  
+  const code = cartRepository.updateCartItemQuantity(cartName, itemName, quantity);
+  if (code === 404) return res.status(404).send('Cart or item not found');
+  
+  res.status(code).send(cartRepository.carts);
+});
+
 export default router;

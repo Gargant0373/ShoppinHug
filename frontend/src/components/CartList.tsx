@@ -1,8 +1,9 @@
-import { Button, Container, List, ListItem, ListItemText, Snackbar, TextField, Typography } from '@mui/material';
+import { Button, Container, IconButton, List, ListItem, ListItemText, Snackbar, TextField, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cart from '../types/cart';
-import { addCart, getCarts } from '../api/cart';
+import { addCart, getCarts, removeCart } from '../api/cart';
 
 const CartList: React.FC = () => {
   const [carts, setCarts] = useState<Cart[]>([]);
@@ -48,6 +49,18 @@ const CartList: React.FC = () => {
     navigate(`/cart/${cartName}`);
   };
 
+  const handleRemoveCart = async (cartName: string) => {
+    try {
+      await removeCart(cartName);
+      const fetchedCarts = await getCarts();
+      setCarts(fetchedCarts);
+    } catch (error) {
+      console.error('Error removing cart:', error);
+      setSnackbarMessage('Error removing cart.');
+      setSnackbarOpen(true);
+    }
+  };
+
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -68,6 +81,16 @@ const CartList: React.FC = () => {
         {carts.map((cart) => (
           <ListItem button key={cart.name} onClick={() => handleCartClick(cart.name)}>
             <ListItemText primary={cart.name} />
+            <IconButton
+              edge="end"
+              color="secondary"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRemoveCart(cart.name);
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
           </ListItem>
         ))}
       </List>

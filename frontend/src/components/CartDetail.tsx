@@ -85,7 +85,7 @@ const CartDetail: React.FC = () => {
     if (!cartName) return;
 
     try {
-      //TODO : await updateItemQuantity(cartName, itemName, quantity);
+      await updateItemQuantity(cartName, itemName, quantity);
       const fetchedCart = await getCart(cartName);
       setCart(fetchedCart);
     } catch (error) {
@@ -142,7 +142,7 @@ const CartDetail: React.FC = () => {
           >
             <ListItemText
               primary={item.name}
-              secondary={`Quantity: ${item.quantity}`}
+              secondary={`Quantity: ${item.quantity} | Owner: ${item.owner}`}
               primaryTypographyProps={{
                 style: { textDecoration: item.checked ? 'line-through' : 'none' }
               }}
@@ -154,7 +154,8 @@ const CartDetail: React.FC = () => {
               InputProps={{
                 endAdornment: <InputAdornment position="end">pcs</InputAdornment>
               }}
-              style={{ marginLeft: 'auto' }}
+              style={{ marginLeft: 'auto', width: 120 }}
+              onClick={(e) => e.stopPropagation()}
             />
           </ListItem>
         )) || <ListItem>No items in this cart</ListItem>}

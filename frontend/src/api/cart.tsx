@@ -58,8 +58,16 @@ export const updateItemQuantity = async (
     cartName: string,
     itemName: string,
     quantity: number,
-    owner: string
 ): Promise<Cart> => {
-    // TODO
-    return {} as Cart;
+    try {
+        const response = await axios.put(`${server}/item/quantity`, {
+            cartName,
+            itemName,
+            quantity,
+        });
+        return response.data;
+    } catch (error) {
+        console.error('Error updating item quantity:', error);
+        throw new Error('Error updating item quantity');
+    }
 };

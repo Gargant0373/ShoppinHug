@@ -8,7 +8,7 @@ function init() {
     if (!fs.existsSync('./data')) {
         fs.mkdirSync('./data');
     }
-    
+
     // Check if file exists
     if (!fs.existsSync('./data/carts.json')) {
         fs.writeFileSync('./data/carts.json', JSON.stringify([]));
@@ -54,4 +54,19 @@ function removeCart(cartName: string): number {
     return 200;
 }
 
-export { carts, init, getCart, save, addCart, addCartItem, removeCart };
+function updateCartItemQuantity(cartName: string, itemName: string, quantity: number): number {
+    const cart: Cart | undefined = getCart(cartName);
+    if (!cart) return 404;
+
+    let item = cart.content.find(i => i.name === itemName);
+    if (!item) return 404;
+
+    item.quantity = quantity;
+    if (item.quantity <= 0) {
+        cart.content = cart.content.filter(i => i.name !== itemName);
+    }
+    save();
+    return 200;
+}
+
+export { carts, init, getCart, save, addCart, addCartItem, removeCart, updateCartItemQuantity };
