@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/user";
+import User from "../types/user";
 
 function Login() {
     const [username, setUsername] = useState('')
@@ -13,7 +14,7 @@ function Login() {
     useEffect(() => {
         let username = Cookies.get("user");
         let password = Cookies.get("password");
-        let user = { name: username, password: password };
+        let user = { name: username, password: password } as User;
         login(user).then((res) => {
             if (res.status == 200) navigate('/shop');
             else {

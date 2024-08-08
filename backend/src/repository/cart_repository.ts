@@ -24,10 +24,10 @@ function save(): void {
     fs.writeFileSync('./data/carts.json', JSON.stringify(carts));
 }
 
-function addCart(name: string): number {
+function addCart(name: string, owner: string): number {
     let ix = carts.findIndex(c => c.name === name);
     if (ix !== -1) return 404;
-    carts.push({ name: name, content: [] });
+    carts.push({ name: name, content: [], owner: owner });
     save();
     return 200;
 }

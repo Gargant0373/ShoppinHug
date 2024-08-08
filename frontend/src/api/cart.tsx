@@ -16,9 +16,9 @@ export const getCart = async (cartName: string): Promise<Cart> => {
     return response.data;
 };
 
-export const addCart = async (cartName: string): Promise<Cart[]> => {
+export const addCart = async (cartName: string, ownerName: string): Promise<Cart[]> => {
     const response: AxiosResponse<Cart[]> = await axios.post(`${server}/cart`, {
-        cartName
+        cartName, ownerName
     });
     return response.data;
 };

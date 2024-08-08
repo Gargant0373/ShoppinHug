@@ -4,10 +4,10 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import CartDetail from './components/CartDetail';
 import './index.css';
 import Login from './pages/login';
-import Shop from './pages/shop';
-import CartDetail from './components/CartDetail';
+import CartList from './components/CartList';
 
 const router = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     element: <Login />
   }, {
     path: "/shop",
-    element: <Shop />
+    element: <CartList />
   }, {
     path: "/cart/:cartName",
     element: <CartDetail />

@@ -22,9 +22,9 @@ router.get('/cart', (req: Request, res: Response) => {
 
 // Create a new cart
 router.post('/cart', (req: Request, res: Response) => {
-  const { cartName } = req.body;
+  const { cartName, ownerName } = req.body;
   if (!cartName) return res.status(400).send('Cart name is required');
-  const code = cartRepository.addCart(cartName);
+  const code = cartRepository.addCart(cartName, ownerName);
   res.status(code).send(cartRepository.carts);
 });
 
@@ -62,10 +62,10 @@ router.put('/item/quantity', (req: Request, res: Response) => {
   const { cartName, itemName, quantity } = req.body;
   if (!cartName || !itemName || quantity === undefined) return res.status(400).send('Cart name, item name, and quantity are required');
   if (quantity < 0) return res.status(400).send('Quantity must be a non-negative number');
-  
+
   const code = cartRepository.updateCartItemQuantity(cartName, itemName, quantity);
   if (code === 404) return res.status(404).send('Cart or item not found');
-  
+
   res.status(code).send(cartRepository.carts);
 });
 
