@@ -1,4 +1,5 @@
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Button, CircularProgress, Container, IconButton, InputAdornment, List, ListItem, ListItemText, Snackbar, TextField, Typography } from '@mui/material';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
@@ -95,6 +96,20 @@ const CartDetail: React.FC = () => {
     }
   };
 
+  const handleDeleteItem = async (itemName: string) => {
+    if (!cartName) return;
+
+    try {
+      await updateItemQuantity(cartName, itemName, -1);
+      const fetchedCart = await getCart(cartName);
+      setCart(fetchedCart);
+    } catch (error) {
+      console.error('Error deleting item from cart:', error);
+      setSnackbarMessage('Error deleting item from cart.');
+      setSnackbarOpen(true);
+    }
+  };
+
   const handleBackClick = () => {
     navigate(-1);
   };
@@ -107,7 +122,7 @@ const CartDetail: React.FC = () => {
         <ArrowBackIcon />
       </IconButton>
       <Typography variant="h4" gutterBottom>
-        {cart?.name || 'Cart Detail'}
+        {'Cart: ' + cart?.name || 'Cart Detail'}
       </Typography>
       <TextField
         label="New Item Name"
@@ -157,6 +172,9 @@ const CartDetail: React.FC = () => {
               style={{ marginLeft: 'auto', width: 120 }}
               onClick={(e) => e.stopPropagation()}
             />
+            <IconButton onClick={(e) => { e.stopPropagation(); handleDeleteItem(item.name); }} color="secondary">
+              <DeleteIcon />
+            </IconButton>
           </ListItem>
         )) || <ListItem>No items in this cart</ListItem>}
       </List>

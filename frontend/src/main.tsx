@@ -5,9 +5,21 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import CartDetail from './components/CartDetail';
-import './index.css';
-import Login from './pages/login';
 import CartList from './components/CartList';
+import './index.css';
+import Login from './pages/Login';
+import { createTheme, ThemeProvider } from '@mui/material';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#3f51b5',
+    },
+    secondary: {
+      main: '#f50057',
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -24,6 +36,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>,
 )

@@ -82,7 +82,7 @@ const CartList: React.FC = () => {
 
     return (
         <Container>
-            <Typography variant="h4" gutterBottom>
+            <Typography variant="h4" marginTop="15px" gutterBottom>
                 Cart List
             </Typography>
             <TextField
